@@ -74,8 +74,6 @@ impl Poetry {
             match self.environments.lock() {
                 Ok(mut environments) => {
                     environments.clear();
-                    // envs.replace(result);
-                    // self.searched.store(true, Ordering::Relaxed);
                     for (project_dir, envs) in result {
                         for env in envs {
                             if let Some(env) =
