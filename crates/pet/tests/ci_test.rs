@@ -35,7 +35,9 @@ fn verify_validity_of_discovered_envs() {
     find_and_report_envs(
         &reporter,
         Default::default(),
-        &create_locators(conda_locator),
+        &create_locators(conda_locator.clone()),
+        conda_locator,
+        None,
     );
     let result = reporter.get_result();
 
@@ -73,7 +75,9 @@ fn check_if_virtualenvwrapper_exists() {
     find_and_report_envs(
         &reporter,
         Default::default(),
-        &create_locators(conda_locator),
+        &create_locators(conda_locator.clone()),
+        conda_locator,
+        None,
     );
 
     let result = reporter.get_result();
@@ -116,7 +120,9 @@ fn check_if_pyenv_virtualenv_exists() {
     find_and_report_envs(
         &reporter,
         Default::default(),
-        &create_locators(conda_locator),
+        &create_locators(conda_locator.clone()),
+        conda_locator,
+        None,
     );
 
     let result = reporter.get_result();

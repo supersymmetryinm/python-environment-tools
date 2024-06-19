@@ -27,6 +27,10 @@ impl Default for MacCmdLineTools {
     }
 }
 impl Locator for MacCmdLineTools {
+    fn supported_categories(&self) -> Vec<PythonEnvironmentCategory> {
+        vec![PythonEnvironmentCategory::MacCommandLineTools]
+    }
+
     fn from(&self, env: &PythonEnv) -> Option<PythonEnvironment> {
         if std::env::consts::OS != "macos" {
             return None;

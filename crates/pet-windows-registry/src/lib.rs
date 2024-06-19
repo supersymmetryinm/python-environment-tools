@@ -6,7 +6,11 @@ use environments::get_registry_pythons;
 use pet_conda::{utils::is_conda_env, CondaLocator};
 #[cfg(windows)]
 use pet_core::LocatorResult;
-use pet_core::{python_environment::PythonEnvironment, reporter::Reporter, Locator};
+use pet_core::{
+    python_environment::{PythonEnvironment, PythonEnvironmentCategory},
+    reporter::Reporter,
+    Locator,
+};
 use pet_python_utils::env::PythonEnv;
 use std::sync::{Arc, RwLock};
 
@@ -46,6 +50,10 @@ impl WindowsRegistry {
 }
 
 impl Locator for WindowsRegistry {
+    fn supported_categories(&self) -> Vec<PythonEnvironmentCategory> {
+        vec![PythonEnvironmentCategory::WindowsRegistry]
+    }
+
     fn from(&self, env: &PythonEnv) -> Option<PythonEnvironment> {
         // We need to check this here, as its possible to install
         // a Python environment via an Installer that ends up in Windows Registry

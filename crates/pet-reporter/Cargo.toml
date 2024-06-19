@@ -8,6 +8,7 @@ msvc_spectre_libs = { version = "0.1.1", features = ["error"] }
 
 [dependencies]
 pet-core = { path = "../pet-core" }
+pet-cache = { path = "../pet-cache" }
 pet-jsonrpc = { path = "../pet-jsonrpc" }
 log = "0.4.21"
 env_logger = "0.10.2"

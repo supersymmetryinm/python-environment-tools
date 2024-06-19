@@ -27,6 +27,10 @@ impl Default for LinuxGlobalPython {
     }
 }
 impl Locator for LinuxGlobalPython {
+    fn supported_categories(&self) -> Vec<PythonEnvironmentCategory> {
+        vec![PythonEnvironmentCategory::System]
+    }
+
     fn from(&self, env: &PythonEnv) -> Option<PythonEnvironment> {
         if std::env::consts::OS == "macos" || std::env::consts::OS == "windows" {
             return None;

@@ -26,6 +26,10 @@ impl Default for MacPythonOrg {
     }
 }
 impl Locator for MacPythonOrg {
+    fn supported_categories(&self) -> Vec<PythonEnvironmentCategory> {
+        vec![PythonEnvironmentCategory::MacPythonOrg]
+    }
+
     fn from(&self, env: &PythonEnv) -> Option<PythonEnvironment> {
         if std::env::consts::OS != "macos" {
             return None;

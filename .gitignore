@@ -10,5 +10,6 @@ target/
 *.pdb
 
 # Directory with generated environments (generally created on CI)
-tmp
+tmp/
+temp/
 .DS_Store

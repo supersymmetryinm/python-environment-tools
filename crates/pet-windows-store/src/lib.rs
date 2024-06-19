@@ -8,7 +8,7 @@ mod environments;
 use crate::env_variables::EnvVariables;
 #[cfg(windows)]
 use environments::list_store_pythons;
-use pet_core::python_environment::PythonEnvironment;
+use pet_core::python_environment::{PythonEnvironment, PythonEnvironmentCategory};
 use pet_core::reporter::Reporter;
 use pet_core::{os_environment::Environment, Locator};
 use pet_python_utils::env::PythonEnv;
@@ -55,6 +55,10 @@ impl WindowsStore {
 }
 
 impl Locator for WindowsStore {
+    fn supported_categories(&self) -> Vec<PythonEnvironmentCategory> {
+        vec![PythonEnvironmentCategory::WindowsStore]
+    }
+
     #[cfg(windows)]
     fn from(&self, env: &PythonEnv) -> Option<PythonEnvironment> {
         if let Some(environments) = self.find_with_cache() {

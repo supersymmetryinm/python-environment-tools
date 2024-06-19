@@ -12,20 +12,13 @@ use pet_core::Locator;
 use pet_mac_commandlinetools::MacCmdLineTools;
 use pet_mac_python_org::MacPythonOrg;
 use pet_pipenv::PipEnv;
+use pet_poetry::Poetry;
 use pet_pyenv::PyEnv;
 use pet_python_utils::env::{PythonEnv, ResolvedPythonEnv};
 use pet_venv::Venv;
 use pet_virtualenv::VirtualEnv;
 use pet_virtualenvwrapper::VirtualEnvWrapper;
-use std::path::PathBuf;
 use std::sync::Arc;
-
-#[derive(Debug, Default, Clone)]
-pub struct Configuration {
-    pub search_paths: Option<Vec<PathBuf>>,
-    pub conda_executable: Option<PathBuf>,
-    pub custom_virtual_env_dirs: Option<Vec<PathBuf>>,
-}
 
 pub fn create_locators(conda_locator: Arc<Conda>) -> Arc<Vec<Arc<dyn Locator>>> {
     // NOTE: The order of the items matter.
@@ -61,6 +54,7 @@ pub fn create_locators(conda_locator: Arc<Conda>) -> Arc<Vec<Arc<dyn Locator>>> 
     // 6. Support for Virtual Envs
     // The order of these matter.
     // Basically PipEnv is a superset of VirtualEnvWrapper, which is a superset of Venv, which is a superset of VirtualEnv.
+    locators.push(Arc::new(Poetry::from(&environment)));
     locators.push(Arc::new(PipEnv::from(&environment)));
     locators.push(Arc::new(VirtualEnvWrapper::from(&environment)));
     locators.push(Arc::new(Venv::new()));
