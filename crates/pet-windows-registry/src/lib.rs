@@ -19,6 +19,7 @@ mod environments;
 pub struct WindowsRegistry {
     #[allow(dead_code)]
     conda_locator: Arc<dyn CondaLocator>,
+    #[allow(dead_code)]
     searched: AtomicBool,
     #[allow(dead_code)]
     environments: Arc<RwLock<Vec<PythonEnvironment>>>,

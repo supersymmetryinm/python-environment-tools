@@ -23,6 +23,7 @@ pub fn is_windows_app_folder_in_program_files(path: &Path) -> bool {
 
 pub struct WindowsStore {
     pub env_vars: EnvVariables,
+    #[allow(dead_code)]
     searched: AtomicBool,
     #[allow(dead_code)]
     environments: Arc<RwLock<Vec<PythonEnvironment>>>,
