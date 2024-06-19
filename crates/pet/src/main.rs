@@ -25,6 +25,9 @@ enum Commands {
         /// Directory for caching the environments.
         #[arg(short, long, value_name = "cache_dir")]
         cache_dir: Option<PathBuf>,
+        /// Directory for caching the environments.
+        #[arg(short, long)]
+        list: Option<bool>,
     },
     /// Starts the JSON RPC Server.
     Server,
@@ -33,8 +36,8 @@ enum Commands {
 fn main() {
     let cli = Cli::parse();
 
-    match cli.command.unwrap_or(Commands::Find { cache_dir: None }) {
-        Commands::Find { cache_dir } => find_and_report_envs_stdio(true, true, cache_dir),
+    match cli.command.unwrap_or(Commands::Find { cache_dir: None, list: Some(true)}) {
+        Commands::Find { list, cache_dir } => find_and_report_envs_stdio(list.unwrap_or(true), true, cache_dir),
         Commands::Server => start_jsonrpc_server(),
     }
 }

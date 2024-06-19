@@ -272,6 +272,7 @@ dependencies = [
  "pet-jsonrpc",
  "pet-mac-commandlinetools",
  "pet-mac-python-org",
+ "pet-mac-xcode",
  "pet-pipenv",
  "pet-poetry",
  "pet-pyenv",
@@ -427,6 +428,17 @@ dependencies = [
 
 [[package]]
 name = "pet-mac-python-org"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "msvc_spectre_libs",
+ "pet-core",
+ "pet-fs",
+ "pet-python-utils",
+]
+
+[[package]]
+name = "pet-mac-xcode"
 version = "0.1.0"
 dependencies = [
  "log",

@@ -23,6 +23,7 @@ pub enum PythonEnvironmentCategory {
     System,
     MacPythonOrg,
     MacCommandLineTools,
+    MacXCode,
     Unknown,
     Venv,
     VirtualEnv,

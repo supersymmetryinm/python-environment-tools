@@ -11,6 +11,7 @@ use pet_core::python_environment::{
 use pet_core::Locator;
 use pet_mac_commandlinetools::MacCmdLineTools;
 use pet_mac_python_org::MacPythonOrg;
+use pet_mac_xcode::MacXCode;
 use pet_pipenv::PipEnv;
 use pet_poetry::Poetry;
 use pet_pyenv::PyEnv;
@@ -62,8 +63,9 @@ pub fn create_locators(conda_locator: Arc<Conda>) -> Arc<Vec<Arc<dyn Locator>>> 
     locators.push(Arc::new(VirtualEnv::new()));
 
     // 7. Global Mac Python
-    // 8. CommandLineTools Python (xcode)
+    // 8. CommandLineTools Python & xcode
     if std::env::consts::OS == "macos" {
+        locators.push(Arc::new(MacXCode::new()));
         locators.push(Arc::new(MacCmdLineTools::new()));
         locators.push(Arc::new(MacPythonOrg::new()));
     }

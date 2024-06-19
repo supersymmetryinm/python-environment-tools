@@ -16,6 +16,7 @@ fn python_category_to_string(category: &PythonEnvironmentCategory) -> &'static s
     match category {
         PythonEnvironmentCategory::System => "system",
         PythonEnvironmentCategory::MacCommandLineTools => "mac-command-line-tools",
+        PythonEnvironmentCategory::MacXCode => "mac-xcode",
         PythonEnvironmentCategory::MacPythonOrg => "mac-python-org",
         PythonEnvironmentCategory::Homebrew => "homebrew",
         PythonEnvironmentCategory::Conda => "conda",

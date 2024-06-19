@@ -27,6 +27,7 @@ pet-virtualenvwrapper = { path = "../pet-virtualenvwrapper" }
 pet-python-utils = { path = "../pet-python-utils" }
 pet-env-var-path = { path = "../pet-env-var-path" }
 pet-mac-commandlinetools = { path = "../pet-mac-commandlinetools" }
+pet-mac-xcode = { path = "../pet-mac-xcode" }
 pet-mac-python-org = { path = "../pet-mac-python-org" }
 pet-venv = { path = "../pet-venv" }
 pet-virtualenv = { path = "../pet-virtualenv" }
