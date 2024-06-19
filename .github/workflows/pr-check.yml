@@ -22,7 +22,7 @@ jobs:
             run_cli: "yes"
           - os: windows-latest
             target: aarch64-pc-windows-msvc
-            run_cli: "no"
+            run_cli: "yes"
           - os: ubuntu-latest
             target: x86_64-unknown-linux-musl
             run_cli: "yes"
