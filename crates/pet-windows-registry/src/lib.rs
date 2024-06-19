@@ -12,40 +12,50 @@ use pet_core::{
     Locator,
 };
 use pet_python_utils::env::PythonEnv;
-use std::sync::{Arc, RwLock};
+use std::sync::{atomic::AtomicBool, Arc, RwLock};
 
 mod environments;
 
 pub struct WindowsRegistry {
     #[allow(dead_code)]
     conda_locator: Arc<dyn CondaLocator>,
+    searched: AtomicBool,
     #[allow(dead_code)]
-    environments: Arc<RwLock<Option<Vec<PythonEnvironment>>>>,
+    environments: Arc<RwLock<Vec<PythonEnvironment>>>,
 }
 
 impl WindowsRegistry {
     pub fn from(conda_locator: Arc<dyn CondaLocator>) -> WindowsRegistry {
         WindowsRegistry {
             conda_locator,
-            environments: Arc::new(RwLock::new(None)),
+            searched: AtomicBool::new(false),
+            environments: Arc::new(RwLock::new(vec![])),
         }
     }
     #[cfg(windows)]
     fn find_with_cache(&self) -> Option<LocatorResult> {
-        let envs = self.environments.read().unwrap();
-        if let Some(environments) = envs.as_ref() {
-            Some(LocatorResult {
-                managers: vec![],
-                environments: environments.clone(),
-            })
-        } else {
-            drop(envs);
-            let mut envs = self.environments.write().unwrap();
-            let result = get_registry_pythons(&self.conda_locator)?;
-            envs.replace(result.environments.clone());
+        use std::sync::atomic::Ordering;
 
-            Some(result)
+        if self.searched.load(Ordering::Relaxed) {
+            if let Ok(envs) = self.environments.read() {
+                return Some(LocatorResult {
+                    environments: envs.clone(),
+                    managers: vec![],
+                });
+            }
         }
+        self.searched.store(false, Ordering::Relaxed);
+        if let Ok(mut envs) = self.environments.write() {
+            envs.clear();
+        }
+        let result = get_registry_pythons(&self.conda_locator)?;
+        if let Ok(mut envs) = self.environments.write() {
+            envs.clear();
+            envs.extend(result.environments.clone());
+            self.searched.store(true, Ordering::Relaxed);
+        }
+
+        Some(result)
     }
 }
 
@@ -77,10 +87,8 @@ impl Locator for WindowsRegistry {
 
     #[cfg(windows)]
     fn find(&self, reporter: &dyn Reporter) {
-        let mut envs = self.environments.write().unwrap();
-        if envs.is_some() {
-            envs.take();
-        }
+        self.searched
+            .store(false, std::sync::atomic::Ordering::Relaxed);
         if let Some(result) = self.find_with_cache() {
             result
                 .managers
